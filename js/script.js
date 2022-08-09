@@ -1,45 +1,73 @@
 //Declaracion de variables
-let apellido
-let notas
-let texto = 'Promedios Finales:'
+let alumnos = []
+
+class Alumno{
+    constructor(nombre,notas,promedio,estado){
+        this.nombre = nombre
+        this.notas = notas
+        this.promedio = promedio
+        this.estado = estado
+    }
+
+    mensaje(){
+        return `Mi estado es: ${this.estado}`
+    }
+}
 
 //Declaracion de funciones
-const promediar =(notas)=> notas/3
-
-const aprobacion = () =>{
-
-    let promedioFinal = promediar(notas).toFixed(2)
-
-    if(promedioFinal >= 7){
-        return `El alumno ${apellido} Aprobó con: ${promedioFinal}`
-    } else if(promedioFinal < 7) {
-        return `El alumno ${apellido} Desaprobo con: ${promedioFinal}`
-    } else {
-        return `Ingresaste mal un dato`
+const promediar =(notas)=> {
+    let notasTotales = 0
+    for(let nota of notas){
+        notasTotales += nota
     }
+    return notasTotales / 3
 }
 
 const mostrar = ()=>{
-    console.log(texto)
+    for(alumno of alumnos){
+        console.log(`
+         Alumno: ${alumno.nombre} 
+         Notas: ${alumno.notas.join(', ')} 
+         Promedio Final: ${alumno.promedio}
+         Estado: ${alumno.estado}`)
+    }
 }
+
+const aprobacion =(promedioFinal)=>{
+    let estado
+    if(promedioFinal >= 7){
+        estado = 'Aprobado'
+    } else {
+        estado = 'Desaprobado'
+    }
+    
+    return estado
+    
+}
+
 
 //Comienzo del programa
 const empezar =()=>{
-    alert('A continuacion vamos a exhibir el promedio final de nuestros alumnos. Por favor ingresar apellido y sus 3 notas correspondientes')
+    alert('A continuacion vamos a exhibir el promedio final de nuestros alumnos. Por favor ingresar su Nombre y sus 3 notas correspondientes')
 
-    for(let i = 0;i < 3;i++){
+    for(let i = 0; i < 3;i++){
     
-    apellido = prompt(`Porfavor ingresar apellido del Alumno n°${i + 1}`)
+    let apellido = prompt(`Porfavor ingresar Nombre del Alumno n°${i + 1}`)
 
-    notas = 0
+    let notas = []
     for(let i = 0; i < 3; i++){
         let nota = parseInt(prompt(`${apellido} digame la nota de la evaluacion N°${i + 1}`))
-        notas += nota
+        notas.push(nota)
     }
 
-    texto += ` ${aprobacion(notas)}`
+    let promedio = parseInt(promediar(notas).toFixed(2))
+    let estado = aprobacion(promedio)
+
+    alumnos.push(new Alumno(apellido,notas,promedio,estado))
+    
+    }
 }
-}
+
 
 
 
